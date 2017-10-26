@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ELI5 tool</title>
+        <link rel="stylesheet" href="css/index.css">
+    </head>
+    <body>
+        <div>
+            Highlight words more complex than the
+            <select id="vocabulary-limit">
+                <option value="1000">1000</option>
+                <option value="2000">2000</option>
+                <option value="3000">3000</option>
+                <option value="4000">4000</option>
+                <option value="5000">5000</option>
+                <option value="6000">6000</option>
+                <option value="7000">7000</option>
+                <option value="8000">8000</option>
+                <option value="9000">9000</option>
+                <option value="10000">10000</option>
+            </select>
+            <a href="https://github.com/first20hours/google-10000-english/blob/master/google-10000-english-no-swears.txt">
+                most popular English words
+            </a>
+        </div>
+        <textarea id="complex-text" placeholder="Begin typing..."></textarea>
+        <div id="simple-text"></div>
+        <div class="footer">
+            <p>Inspired by
+                <a href="https://xkcd.com/simplewriter/">simple writer</a>.
+            </p>
+            <p>
+            Unless you are deliberately seeking to dumb your speech down, please don't use this tool.
+            <a href="https://en.wikipedia.org/wiki/Dumbing_down#In_popular_culture">
+            A strong vocabulary is to be cherished!
+            </a>
+            </p>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/thesaurus.js"></script>
+        <script src="js/suggestion.js"></script>
+        <script src="js/convert.js"></script>
+    </body>
+</html>

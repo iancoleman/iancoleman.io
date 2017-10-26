@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Monthly block size</title>
+        <style>
+body {
+    text-align: center;
+}
+.hidden {
+    display: none;
+}
+#loadBtn {
+    width: 5em;
+    height: 3em;
+}
+#month {
+    width: 50%;
+    margin-left: 25%;
+}
+#chart {
+    width: 80%;
+    margin-left: 10%;
+}
+        </style>
+    </head>
+    <body>
+        <p>Block Size Distribution by month</p>
+        <div id="load">
+            <button id="loadBtn">Load</button>
+            <span id="size">Large</span> file
+        </div>
+        <p id="loading" class="hidden">Loading...</p>
+        <div id="loaded" class="hidden">
+            <input type="range" id="month" value="0">
+            <div id="chart"></div>
+        </div>
+        <script src="../js/Chart.min.js"></script>
+        <script src="../js/papaparse.min.js"></script>
+        <script src="histogram.js"></script>
+    </body>
+</html>

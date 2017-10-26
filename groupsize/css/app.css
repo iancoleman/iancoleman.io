@@ -1,0 +1,77 @@
+.table-nonfluid {
+    width: auto !important;
+}
+.container-fluid > div > div,
+.notes li,
+.reading li {
+    margin-bottom: 1em;
+}
+
+ul {
+    padding-left: 1em;
+}
+
+input.small {
+    display: inline-block;
+    width: 7em;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+input.medium {
+    display: inline-block;
+    width: 14em;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+select.form-control {
+    display: inline-block;
+    width: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+code {
+    color: #333;
+    background: rgba(0,0,0,0);
+}
+
+.popup {
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px dotted #999;
+    line-height: 13px; /* sets dotted underline correctly */
+}
+.popup * {
+    line-height: 1.42857143; /* from bootstrap */
+}
+div.popup {
+    display: inline-block;
+}
+.popup-content {
+    display: none;
+    text-align: left;
+    position: absolute;
+    background-color: #FFF;
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px;
+    z-index: 1000;
+    width: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.popup:hover .popup-content {
+    display: block;
+}
+
+/* http://stackoverflow.com/a/22559163 */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+}
