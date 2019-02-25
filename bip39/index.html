@@ -6880,7 +6880,7 @@ button.close {
         <div class="container">
 
             <h1 class="text-center">Mnemonic Code Converter</h1>
-            <p class="version">v0.3.9</p>
+            <p class="version">v0.3.10</p>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -6902,7 +6902,7 @@ button.close {
                                 <div class="form-inline">
                                     <div class="input-group-inline">
                                          <span>Generate a random mnemonic</span>:
-                                        <button class="btn generate" ><b>GENERATE</b></button> 
+                                        <button class="btn generate" ><b>GENERATE</b></button>
                                         <select id="strength" class="strength form-control">
                                             <option value="3">3</option>
                                             <option value="6">6</option>
@@ -7612,14 +7612,6 @@ button.close {
                     <p>
                         Read more at the
                         <a href="https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki" target="_blank">official BIP49 spec</a>
-                    </p>
-                    <h3>Private Keys</h3>
-                    <p>
-                        <span>
-                            Use private keys at
-                            <a href="https://web.archive.org/web/20150707020924/https://brainwallet.org/" target="_blank">brainwallet.org</a>.
-                        </span>
-                        <span>Be careful - it can be easy to make mistakes if you don't know what you're doing.</span>
                     </p>
                     <h3 id="entropy-notes">Entropy</h3>
                     <p>
@@ -42156,7 +42148,7 @@ bitcoinjs.bitcoin.networks.peercoin = {
     private: 0x0488ade4
   },
   pubKeyHash: 0x37,
-  scriptHash: 0x00, // TODO set this correctly
+  scriptHash: 0x75,
   wif: 0xb7
 };
 
@@ -42301,6 +42293,18 @@ bitcoinjs.bitcoin.networks.onixcoin = {
     },
     pubKeyHash: 0x4B,
     scriptHash: 0x05,
+    wif: 0x80
+};
+
+
+bitcoinjs.bitcoin.networks.lkrcoin = {
+    messagePrefix: '\x18LKRcoin Signed Message:\n',
+    bip32: {
+      public: 0x0488b21e,
+      private: 0x0488ade4,
+    },
+    pubKeyHash: 0x30,
+    scriptHash: 0x55,
     wif: 0x80
 };
 
@@ -43075,6 +43079,17 @@ bitcoinjs.bitcoin.networks.putincoin = {
   wif: 0xb7,
 };
 
+bitcoinjs.bitcoin.networks.ravencoin = {
+  messagePrefix: '\x16Raven Signed Message:\n',
+  bip32: {
+    public: 0x0488B21E,
+    private: 0x0488ADE4,
+  },
+  pubKeyHash: 0x3c,
+  scriptHash: 0x7a,
+  wif: 0x80,
+};
+
 bitcoinjs.bitcoin.networks.reddcoin = {
   messagePrefix: '\x18Reddcoin Signed Message:\n',
   bip32: {
@@ -43106,6 +43121,17 @@ bitcoinjs.bitcoin.networks.rubycoin = {
   pubKeyHash: 0x3c,
   scriptHash: 0x55,
   wif: 0xbc,
+};
+
+bitcoinjs.bitcoin.networks.safecoin = {
+  messagePrefix: '\x18Safecoin Signed Message:\n',
+  bip32: {
+    public: 0x0488b21e,
+    private: 0x0488ade4,
+  },
+  pubKeyHash: 0x3d,
+  scriptHash: 0x56,
+  wif: 0xbd,
 };
 
 bitcoinjs.bitcoin.networks.salus = {
@@ -43459,6 +43485,61 @@ bitcoinjs.bitcoin.networks.projectcoin = {
   pubKeyHash: 0x37,
   scriptHash: 0x08,
   wif:  0x75,
+};
+
+bitcoinjs.bitcoin.networks.phore = {
+  messagePrefix: '\x18Phore Signed Message:\n',
+  bip32: {
+    public: 0x022D2533,
+    private: 0x0221312B,
+  },
+  pubKeyHash: 0x37,
+  scriptHash: 0x0D,
+  wif:  0xD4,
+};
+
+bitcoinjs.bitcoin.networks.blocknode = {
+  messagePrefix: '\x18Blocknode Signed Message:\n',
+  bip32: {
+	public: 0x0488b21e,
+	private: 0x0488ade4
+  },
+  pubKeyHash: 0x19,
+  scriptHash: 0x3F,
+  wif:  0x4b,
+};
+
+bitcoinjs.bitcoin.networks.blocknode_testnet = {
+  messagePrefix: '\x18Blocknode Testnet Signed Message:\n',
+  bip32: {
+	public: 0x043587cf,
+	private: 0x04358394
+  },
+  pubKeyHash: 0x55,
+  scriptHash: 0x7d,
+  wif:  0x89,
+};
+
+bitcoinjs.bitcoin.networks.litecoinz = {
+  messagePrefix: '\x18LitecoinZ Signed Message:\n',
+  bip32: {
+    public: 0x0488B21E,
+    private: 0x0488ADE3,
+  },
+  pubKeyHash: 0x0AB3,
+  scriptHash: 0x0AB8,
+  wif:  0x80,
+};
+
+bitcoinjs.bitcoin.networks.blockstamp = {
+  messagePrefix: '\x18BlockStamp Signed Message:\n',
+  bip32: {
+    public: 0x0488B21E,
+    private: 0x0488ADE4,
+  },
+  pubKeyHash: 0x00,
+  scriptHash: 0x05,
+  wif:  0x80,
 };</script>
         <script>(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.bitcoinjsBip38 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var asn1 = exports;
@@ -71540,11 +71621,11 @@ bitcoinjs.bitcoin.networks.bgold.p2wpkhInP2sh = {
 
 bitcoinjs.bitcoin.networks.digibyte.p2wpkh = {
     baseNetwork: "digibyte",
-	messagePrefix: '\x18DigiByte Signed Message:\n',
+    messagePrefix: '\x18DigiByte Signed Message:\n',
     bech32: 'dgb',
     bip32: {
-		public: 0x0488B21E,
-		private: 0x0488ADE4
+        public: 0x0488B21E,
+        private: 0x0488ADE4
     },
     pubKeyHash: 0x1e,
     scriptHash: 0x3f,
@@ -71553,19 +71634,42 @@ bitcoinjs.bitcoin.networks.digibyte.p2wpkh = {
 
 bitcoinjs.bitcoin.networks.digibyte.p2wpkhInP2sh = {
     baseNetwork: "digibyte",	
-	messagePrefix: '\x18DigiByte Signed Message:\n',
+    messagePrefix: '\x18DigiByte Signed Message:\n',
     bech32: 'dgb',
     bip32: {
-		public: 0x0488B21E,
-		private: 0x0488ADE4
+        public: 0x0488B21E,
+        private: 0x0488ADE4
     },
     pubKeyHash: 0x1e,
     scriptHash: 0x3f,
     wif: 0x80
 };
 
-    
-    
+bitcoinjs.bitcoin.networks.blockstamp.p2wpkh = {
+    baseNetwork: "blockstamp",
+    messagePrefix: '\x18BlockStamp Signed Message:\n',
+    bech32: 'bc',
+    bip32: {
+      public: 0x0488B21E,
+      private: 0x0488ADE4,
+    },
+    pubKeyHash: 0x00,
+    scriptHash: 0x05,
+    wif:  0x80,
+};
+
+bitcoinjs.bitcoin.networks.blockstamp.p2wpkhInP2sh = {
+    baseNetwork: "blockstamp",	
+    messagePrefix: '\x18BlockStamp Signed Message:\n',
+    bech32: 'bc',
+    bip32: {
+      public: 0x0488B21E,
+      private: 0x0488ADE4,
+    },
+    pubKeyHash: 0x00,
+    scriptHash: 0x05,
+    wif:  0x80,
+};
 })();
 </script>
         <script>(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ethUtil = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -108156,6 +108260,20 @@ window.Entropy = new (function() {
             },
         },
         {
+            name: "BND - Blocknode",
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.blocknode;
+                setHdCoin(2941);
+            },
+        },	
+		{
+            name: "tBND - Blocknode Testnet",
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.blocknode_testnet;
+                setHdCoin(1);
+            },
+        },
+        {
             name: "BRIT - Britcoin",
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.britcoin;
@@ -108167,6 +108285,13 @@ window.Entropy = new (function() {
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.bitsend;
                 setHdCoin(91);
+            },
+        },
+		{
+            name: "BST - BlockStamp",
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.blockstamp;
+                setHdCoin(254);
             },
         },
         {
@@ -108567,11 +108692,26 @@ window.Entropy = new (function() {
             },
         },
         {
+            name: "LKR - Lkrcoin",
+            segwitAvailable: false,
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.lkrcoin;
+                setHdCoin(557);
+            },
+        },
+        {
             name: "LTC - Litecoin",
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.litecoin;
                 setHdCoin(2);
                 DOM.litecoinLtubContainer.removeClass("hidden");
+            },
+        },
+        {
+            name: "LTZ - LitecoinZ",
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.litecoinz;
+                setHdCoin(221);
             },
         },
         {
@@ -108716,6 +108856,13 @@ window.Entropy = new (function() {
                 setHdCoin(174);
             },
         },
+		{
+            name: "PHR - Phore",
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.phore;
+                setHdCoin(444);
+            },
+        },
         {
             name: "PINK - Pinkcoin",
             onSelect: function() {
@@ -108796,6 +108943,13 @@ window.Entropy = new (function() {
             },
         },
         {
+            name: "RVN - Ravencoin",
+            onSelect: function() {
+                network = bitcoinjs.bitcoin.networks.ravencoin;
+                setHdCoin(175);
+            },
+        },
+        {
             name: "RBY - Rubycoin",
             onSelect: function() {
                 network = bitcoinjs.bitcoin.networks.rubycoin;
@@ -108817,6 +108971,13 @@ window.Entropy = new (function() {
             },
         },
         {
+          name: "SAFE - Safecoin",
+          onSelect: function() {
+              network = bitcoinjs.bitcoin.networks.safecoin;
+              setHdCoin(19165);
+            },
+        },
+	{
           name: "SLS - Salus",
           onSelect: function() {
               network = bitcoinjs.bitcoin.networks.salus;
