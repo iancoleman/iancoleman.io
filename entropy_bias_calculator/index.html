@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Entropy Bias</title>
+        <link rel="stylesheet" href="app.css">
+        <body>
+            <h1>Entropy Bias Calculator</h1>
+            <p>
+            When you roll an eight sided dice exactly 3 bits of entropy are
+            generated.
+            </p>
+            <p>
+            A six sided dice generates 2.585 bits of entropy for each roll.
+            How does being a non-integer number of bits affect the entropy?
+            </p>
+
+            <div class="setup">
+                <h2>Test setup</h2>
+                <p>
+                <select class="base-helper">
+                    <option value="2">Flip a coin</option>
+                    <option value="6" selected="selected">Roll a six-sided dice</option>
+                    <option value="8">Roll an eight-sided dice</option>
+                    <option value="20">Roll a twenty-sided dice</option>
+                    <option value="custom">Custom base</option>
+                </select>
+                <input class="base hidden" value="6" type="number" min="2" max="36">
+                <input class="repeats" value="62" type="number">
+                times in a row.
+                Repeat this to create
+                <input class="samples" value="1000" type="number">
+                samples.
+                </p>
+                <p>
+                Use
+                <select class="rng">
+                    <option value="crypto">
+                        crypto.getRandomValues (secure rng)
+                    </option>
+                    <option value="Math">
+                        Math.random (legacy rng)
+                    </option>
+                </select>
+                </p>
+                <p>
+                Align the
+                <select class="alignment">
+                    <option value="lsb">least significant bit on the right</option>
+                    <option value="msb">most significant bit on the left</option>
+                </select>
+                </p>
+            </div>
+
+            <div class="theory">
+                <h2>Theoretical results</h2>
+                <p>
+                Each sample of
+                <span class="repeats">62</span>
+                events is a base
+                <span class="base">6</span>
+                number totalling
+                <span class="entropy-bits">160.26768</span>
+                bits of entropy, ie
+                <span class="repeats">62</span>&nbsp;&times;&nbsp;log<sub>2</sub>(<span class="base">6</span>).
+                </p>
+                <p>
+                A
+                <span class="entropy-bits-floor">160</span>
+                bit number would be expected
+                <span class="entropy-bits-floor-pct">83.066</span>%
+                of the time
+                <div class="uneven-entropy">
+                and a
+                <span class="entropy-bits-ceil">161</span>
+                bit number would be expected
+                <span class="entropy-bits-ceil-pct">16.934</span>%
+                of the time.
+
+                <p>Why?</p>
+
+                <p>
+                The largest number that can be generated is:
+                </p>
+                largest_possible_sample
+                =
+                base<span class="base">6</span>(<span class="largest-sample-summary">555</span>
+                ...
+                <span class="repeats">62</span>
+                digits)
+                <p>
+                In binary this is
+                base2(<span class="largest-sample-binary">100110100</span>
+                ...
+                <span class="entropy-bits-ceil">161</span>
+                digits)
+                </p>
+                <p>
+                How many
+                <span class="entropy-bits-ceil">161</span>
+                bit samples could be generated?
+                </p>
+                <p>
+                total_<span class="entropy-bits-ceil">161</span>_bit_samples
+                =
+                largest_possible_sample
+                -
+                base2(<span class="largest-possible-floor">111</span>
+                ...
+                <span class="entropy-bits-floor">160</span>
+                digits)
+                </p>
+
+                <p>
+                The portion of
+                <span class="entropy-bits-ceil">161</span>
+                bit samples is:
+                </p>
+                <p>
+                total_<span class="entropy-bits-ceil">161</span>_bit_samples / sample_space_size
+                =
+                <span class="entropy-bits-ceil-pct">16.934</span>%
+                <p>
+
+                <p>
+                In the javascript developer console for this tool,
+                the portion can be calculated like this:<pre><code>
+let baseN = <span class="base">6</span>;
+let base2 = 2;
+let largest_possible_sample = new BigNumber("".padStart(<span class="repeats">62</span>, "<span class="largest-sample-repeater">5</span>"), baseN);
+let sample_space_size = largest_possible_sample.plus(1);
+let max<span class="entropy-bits-floor">160</span> = new BigNumber("".padStart(<span class="entropy-bits-floor">160</span>, "1"), base2);
+let diff = largest_possible_sample.minus(max<span class="entropy-bits-floor">160</span>);
+let portion = diff.div(sample_space_size);
+console.log("Portion of <span class="entropy-bits-ceil">161</span> bit samples: " + (portion*100).toString() + "%");</code></pre>
+                </p>
+
+                </div>
+
+            </div>
+
+            <div class="experiment-data">
+                <h2>Experimental data</h2>
+
+                <p>
+                This is a set of samples generated from random numbers,
+                one sample per line.
+                The largest number is converted to 0, eg on a six-sided dice
+                the number 6 becomes 0.
+                </p>
+                <textarea class="samples"></textarea>
+
+                <p>
+                For a familiar way of looking at it, these are the same samples in base 10.
+                </p>
+                <textarea class="samples-base10"></textarea>
+
+                <p>
+                This is the same sample set in binary.
+                Leading zeros are added where required.
+                </p>
+                <textarea class="samples-base2"></textarea>
+            </div>
+
+            <div class="experiment-results">
+                <h2>Experimental results</h2>
+
+                <p class="samples-floor">
+                <span class="count">?</span>
+                samples were
+                <span class="bits">160</span>
+                bits, ie
+                <span class="pct">?</span>%
+                </p>
+
+                <p class="samples-ceil">
+                <span class="count">?</span>
+                samples were
+                <span class="bits">161</span>
+                bits, ie
+                <span class="pct">?</span>%
+                </p>
+
+                <canvas id="frequencies"></canvas>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bit #</th>
+                            <th>0s</th>
+                            <th>1s</th>
+                            <th>% 0s</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <script src="bignumber.min.js"></script>
+            <script src="Chart.min.js"></script>
+            <script src="app.js"></script>
+
+        </body>
+</html>
