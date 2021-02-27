@@ -6870,7 +6870,12 @@ button.close {
     <body>
         <div class="container">
             <h1 class="text-center">EIP2333 Key Generator</h1>
-            <p class="version">v0.1.0</p>
+            <br>
+            <h4 class="text-center">
+                It's safest to use this tool offline,
+                <a href="#offline">see how</a>.
+            </h4>
+            <p class="version">v0.1.1</p>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -7024,9 +7029,10 @@ button.close {
                     </div>
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-md-12">
-                    <h2 id="info">Info</h2>
+                    <h2 id="offline">Offline Use</h2>
                     <p>
                     You can use this tool without having to be online.
                     </p>
@@ -7043,12 +7049,53 @@ button.close {
                     -
                     <a href="https://github.com/iancoleman/eip2333-tool/releases/latest/">https://github.com/iancoleman/eip2333-tool/releases/latest/</a>
                     </p>
-                    <h3>This project is 100% open-source code</h3>
+                    <h2>This project is 100% open-source code</h2>
                     <p>
                         <span>Get the source code from the repository</span>
                         -
                         <a href="https://github.com/iancoleman/eip2333-tool" target="_blank">
                             https://github.com/iancoleman/eip2333-tool
+                        </a>
+                    </p>
+                    <h2 id="libraries">Libraries</h2>
+                    <p>
+                        This tool uses several third-party libraries, all
+                        open source.
+                    </p>
+                    <p>
+                        The list of libraries used by this tool can be found in
+                        <a href="https://github.com/iancoleman/eip2333-tool/blob/master/libs/package.json">
+                            libs/package.json
+                        </a>
+                    </p>
+                    <p>
+                        The list of all dependencies of those libraries can be found in
+                        <a href="https://github.com/iancoleman/eip2333-tool/blob/master/libs/package-lock.json">
+                            libs/package-lock.json
+                        </a>
+                    </p>
+                    <p>
+                        chainsafe/bls-hd-key
+                        <a href="https://www.npmjs.com/package/@chainsafe/bls-hd-key">
+                            0.2.0
+                        </a>
+                    </p>
+                    <p>
+                        bitcoinjs/bip39
+                        <a href="https://www.npmjs.com/package/bip39">
+                            3.0.3
+                        </a>
+                    </p>
+                    <p>
+                        paulmillr/noble-bls12-381
+                        <a href="https://www.npmjs.com/package/noble-bls12-381">
+                            0.9.0
+                        </a>
+                    </p>
+                    <p>
+                        feross/buffer
+                        <a href="https://www.npmjs.com/package/buffer">
+                            5.7.1
                         </a>
                     </p>
                 </div>
@@ -7154,6 +7201,35 @@ object-assign
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){for(var key in src)dst[key]=src[key]}function SafeBuffer(arg,encodingOrOffset,length){return Buffer(arg,encodingOrOffset,length)}Buffer.from&&Buffer.alloc&&Buffer.allocUnsafe&&Buffer.allocUnsafeSlow?module.exports=buffer:(copyProps(buffer,exports),exports.Buffer=SafeBuffer),SafeBuffer.prototype=Object.create(Buffer.prototype),copyProps(Buffer,SafeBuffer),SafeBuffer.from=function(arg,encodingOrOffset,length){if("number"==typeof arg)throw new TypeError("Argument must not be a number");return Buffer(arg,encodingOrOffset,length)},SafeBuffer.alloc=function(size,fill,encoding){if("number"!=typeof size)throw new TypeError("Argument must be a number");var buf=Buffer(size);return void 0!==fill?"string"==typeof encoding?buf.fill(fill,encoding):buf.fill(fill):buf.fill(0),buf},SafeBuffer.allocUnsafe=function(size){if("number"!=typeof size)throw new TypeError("Argument must be a number");return Buffer(size)},SafeBuffer.allocUnsafeSlow=function(size){if("number"!=typeof size)throw new TypeError("Argument must be a number");return buffer.SlowBuffer(size)}},{buffer:87}],208:[function(require,module,exports){(function(process){(function(){"use strict";var key,buffer=require("buffer"),Buffer=buffer.Buffer,safer={};for(key in buffer)buffer.hasOwnProperty(key)&&"SlowBuffer"!==key&&"Buffer"!==key&&(safer[key]=buffer[key]);var Safer=safer.Buffer={};for(key in Buffer)Buffer.hasOwnProperty(key)&&"allocUnsafe"!==key&&"allocUnsafeSlow"!==key&&(Safer[key]=Buffer[key]);if(safer.Buffer.prototype=Buffer.prototype,Safer.from&&Safer.from!==Uint8Array.from||(Safer.from=function(value,encodingOrOffset,length){if("number"==typeof value)throw new TypeError('The "value" argument must not be of type number. Received type '+typeof value);if(value&&void 0===value.length)throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof value);return Buffer(value,encodingOrOffset,length)}),Safer.alloc||(Safer.alloc=function(size,fill,encoding){if("number"!=typeof size)throw new TypeError('The "size" argument must be of type number. Received type '+typeof size);if(size<0||size>=2*(1<<30))throw new RangeError('The value "'+size+'" is invalid for option "size"');var buf=Buffer(size);return fill&&0!==fill.length?"string"==typeof encoding?buf.fill(fill,encoding):buf.fill(fill):buf.fill(0),buf}),!safer.kStringMaxLength)try{safer.kStringMaxLength=process.binding("buffer").kStringMaxLength}catch(e){}safer.constants||(safer.constants={MAX_LENGTH:safer.kMaxLength},safer.kStringMaxLength&&(safer.constants.MAX_STRING_LENGTH=safer.kStringMaxLength)),module.exports=safer}).call(this)}).call(this,require("_process"))},{_process:181,buffer:87}],209:[function(require,module,exports){var Buffer=require("safe-buffer").Buffer;function Hash(blockSize,finalSize){this._block=Buffer.alloc(blockSize),this._finalSize=finalSize,this._blockSize=blockSize,this._len=0}Hash.prototype.update=function(data,enc){"string"==typeof data&&(enc=enc||"utf8",data=Buffer.from(data,enc));for(var block=this._block,blockSize=this._blockSize,length=data.length,accum=this._len,offset=0;offset<length;){for(var assigned=accum%blockSize,remainder=Math.min(length-offset,blockSize-assigned),i=0;i<remainder;i++)block[assigned+i]=data[offset+i];offset+=remainder,(accum+=remainder)%blockSize==0&&this._update(block)}return this._len+=length,this},Hash.prototype.digest=function(enc){var rem=this._len%this._blockSize;this._block[rem]=128,this._block.fill(0,rem+1),rem>=this._finalSize&&(this._update(this._block),this._block.fill(0));var bits=8*this._len;if(bits<=4294967295)this._block.writeUInt32BE(bits,this._blockSize-4);else{var lowBits=(4294967295&bits)>>>0,highBits=(bits-lowBits)/4294967296;this._block.writeUInt32BE(highBits,this._blockSize-8),this._block.writeUInt32BE(lowBits,this._blockSize-4)}this._update(this._block);var hash=this._hash();return enc?hash.toString(enc):hash},Hash.prototype._update=function(){throw new Error("_update must be implemented by subclass")},module.exports=Hash},{"safe-buffer":207}],210:[function(require,module,exports){(exports=module.exports=function(algorithm){algorithm=algorithm.toLowerCase();var Algorithm=exports[algorithm];if(!Algorithm)throw new Error(algorithm+" is not supported (we accept pull requests)");return new Algorithm}).sha=require("./sha"),exports.sha1=require("./sha1"),exports.sha224=require("./sha224"),exports.sha256=require("./sha256"),exports.sha384=require("./sha384"),exports.sha512=require("./sha512")},{"./sha":211,"./sha1":212,"./sha224":213,"./sha256":214,"./sha384":215,"./sha512":216}],211:[function(require,module,exports){var inherits=require("inherits"),Hash=require("./hash"),Buffer=require("safe-buffer").Buffer,K=[1518500249,1859775393,-1894007588,-899497514],W=new Array(80);function Sha(){this.init(),this._w=W,Hash.call(this,64,56)}function rotl30(num){return num<<30|num>>>2}function ft(s,b,c,d){return 0===s?b&c|~b&d:2===s?b&c|b&d|c&d:b^c^d}inherits(Sha,Hash),Sha.prototype.init=function(){return this._a=1732584193,this._b=4023233417,this._c=2562383102,this._d=271733878,this._e=3285377520,this},Sha.prototype._update=function(M){for(var num,W=this._w,a=0|this._a,b=0|this._b,c=0|this._c,d=0|this._d,e=0|this._e,i=0;i<16;++i)W[i]=M.readInt32BE(4*i);for(;i<80;++i)W[i]=W[i-3]^W[i-8]^W[i-14]^W[i-16];for(var j=0;j<80;++j){var s=~~(j/20),t=0|((num=a)<<5|num>>>27)+ft(s,b,c,d)+e+W[j]+K[s];e=d,d=c,c=rotl30(b),b=a,a=t}this._a=a+this._a|0,this._b=b+this._b|0,this._c=c+this._c|0,this._d=d+this._d|0,this._e=e+this._e|0},Sha.prototype._hash=function(){var H=Buffer.allocUnsafe(20);return H.writeInt32BE(0|this._a,0),H.writeInt32BE(0|this._b,4),H.writeInt32BE(0|this._c,8),H.writeInt32BE(0|this._d,12),H.writeInt32BE(0|this._e,16),H},module.exports=Sha},{"./hash":209,inherits:158,"safe-buffer":207}],212:[function(require,module,exports){var inherits=require("inherits"),Hash=require("./hash"),Buffer=require("safe-buffer").Buffer,K=[1518500249,1859775393,-1894007588,-899497514],W=new Array(80);function Sha1(){this.init(),this._w=W,Hash.call(this,64,56)}function rotl5(num){return num<<5|num>>>27}function rotl30(num){return num<<30|num>>>2}function ft(s,b,c,d){return 0===s?b&c|~b&d:2===s?b&c|b&d|c&d:b^c^d}inherits(Sha1,Hash),Sha1.prototype.init=function(){return this._a=1732584193,this._b=4023233417,this._c=2562383102,this._d=271733878,this._e=3285377520,this},Sha1.prototype._update=function(M){for(var num,W=this._w,a=0|this._a,b=0|this._b,c=0|this._c,d=0|this._d,e=0|this._e,i=0;i<16;++i)W[i]=M.readInt32BE(4*i);for(;i<80;++i)W[i]=(num=W[i-3]^W[i-8]^W[i-14]^W[i-16])<<1|num>>>31;for(var j=0;j<80;++j){var s=~~(j/20),t=rotl5(a)+ft(s,b,c,d)+e+W[j]+K[s]|0;e=d,d=c,c=rotl30(b),b=a,a=t}this._a=a+this._a|0,this._b=b+this._b|0,this._c=c+this._c|0,this._d=d+this._d|0,this._e=e+this._e|0},Sha1.prototype._hash=function(){var H=Buffer.allocUnsafe(20);return H.writeInt32BE(0|this._a,0),H.writeInt32BE(0|this._b,4),H.writeInt32BE(0|this._c,8),H.writeInt32BE(0|this._d,12),H.writeInt32BE(0|this._e,16),H},module.exports=Sha1},{"./hash":209,inherits:158,"safe-buffer":207}],213:[function(require,module,exports){var inherits=require("inherits"),Sha256=require("./sha256"),Hash=require("./hash"),Buffer=require("safe-buffer").Buffer,W=new Array(64);function Sha224(){this.init(),this._w=W,Hash.call(this,64,56)}inherits(Sha224,Sha256),Sha224.prototype.init=function(){return this._a=3238371032,this._b=914150663,this._c=812702999,this._d=4144912697,this._e=4290775857,this._f=1750603025,this._g=1694076839,this._h=3204075428,this},Sha224.prototype._hash=function(){var H=Buffer.allocUnsafe(28);return H.writeInt32BE(this._a,0),H.writeInt32BE(this._b,4),H.writeInt32BE(this._c,8),H.writeInt32BE(this._d,12),H.writeInt32BE(this._e,16),H.writeInt32BE(this._f,20),H.writeInt32BE(this._g,24),H},module.exports=Sha224},{"./hash":209,"./sha256":214,inherits:158,"safe-buffer":207}],214:[function(require,module,exports){var inherits=require("inherits"),Hash=require("./hash"),Buffer=require("safe-buffer").Buffer,K=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],W=new Array(64);function Sha256(){this.init(),this._w=W,Hash.call(this,64,56)}function ch(x,y,z){return z^x&(y^z)}function maj(x,y,z){return x&y|z&(x|y)}function sigma0(x){return(x>>>2|x<<30)^(x>>>13|x<<19)^(x>>>22|x<<10)}function sigma1(x){return(x>>>6|x<<26)^(x>>>11|x<<21)^(x>>>25|x<<7)}function gamma0(x){return(x>>>7|x<<25)^(x>>>18|x<<14)^x>>>3}inherits(Sha256,Hash),Sha256.prototype.init=function(){return this._a=1779033703,this._b=3144134277,this._c=1013904242,this._d=2773480762,this._e=1359893119,this._f=2600822924,this._g=528734635,this._h=1541459225,this},Sha256.prototype._update=function(M){for(var x,W=this._w,a=0|this._a,b=0|this._b,c=0|this._c,d=0|this._d,e=0|this._e,f=0|this._f,g=0|this._g,h=0|this._h,i=0;i<16;++i)W[i]=M.readInt32BE(4*i);for(;i<64;++i)W[i]=0|(((x=W[i-2])>>>17|x<<15)^(x>>>19|x<<13)^x>>>10)+W[i-7]+gamma0(W[i-15])+W[i-16];for(var j=0;j<64;++j){var T1=h+sigma1(e)+ch(e,f,g)+K[j]+W[j]|0,T2=sigma0(a)+maj(a,b,c)|0;h=g,g=f,f=e,e=d+T1|0,d=c,c=b,b=a,a=T1+T2|0}this._a=a+this._a|0,this._b=b+this._b|0,this._c=c+this._c|0,this._d=d+this._d|0,this._e=e+this._e|0,this._f=f+this._f|0,this._g=g+this._g|0,this._h=h+this._h|0},Sha256.prototype._hash=function(){var H=Buffer.allocUnsafe(32);return H.writeInt32BE(this._a,0),H.writeInt32BE(this._b,4),H.writeInt32BE(this._c,8),H.writeInt32BE(this._d,12),H.writeInt32BE(this._e,16),H.writeInt32BE(this._f,20),H.writeInt32BE(this._g,24),H.writeInt32BE(this._h,28),H},module.exports=Sha256},{"./hash":209,inherits:158,"safe-buffer":207}],215:[function(require,module,exports){var inherits=require("inherits"),SHA512=require("./sha512"),Hash=require("./hash"),Buffer=require("safe-buffer").Buffer,W=new Array(160);function Sha384(){this.init(),this._w=W,Hash.call(this,128,112)}inherits(Sha384,SHA512),Sha384.prototype.init=function(){return this._ah=3418070365,this._bh=1654270250,this._ch=2438529370,this._dh=355462360,this._eh=1731405415,this._fh=2394180231,this._gh=3675008525,this._hh=1203062813,this._al=3238371032,this._bl=914150663,this._cl=812702999,this._dl=4144912697,this._el=4290775857,this._fl=1750603025,this._gl=1694076839,this._hl=3204075428,this},Sha384.prototype._hash=function(){var H=Buffer.allocUnsafe(48);function writeInt64BE(h,l,offset){H.writeInt32BE(h,offset),H.writeInt32BE(l,offset+4)}return writeInt64BE(this._ah,this._al,0),writeInt64BE(this._bh,this._bl,8),writeInt64BE(this._ch,this._cl,16),writeInt64BE(this._dh,this._dl,24),writeInt64BE(this._eh,this._el,32),writeInt64BE(this._fh,this._fl,40),H},module.exports=Sha384},{"./hash":209,"./sha512":216,inherits:158,"safe-buffer":207}],216:[function(require,module,exports){var inherits=require("inherits"),Hash=require("./hash"),Buffer=require("safe-buffer").Buffer,K=[1116352408,3609767458,1899447441,602891725,3049323471,3964484399,3921009573,2173295548,961987163,4081628472,1508970993,3053834265,2453635748,2937671579,2870763221,3664609560,3624381080,2734883394,310598401,1164996542,607225278,1323610764,1426881987,3590304994,1925078388,4068182383,2162078206,991336113,2614888103,633803317,3248222580,3479774868,3835390401,2666613458,4022224774,944711139,264347078,2341262773,604807628,2007800933,770255983,1495990901,1249150122,1856431235,1555081692,3175218132,1996064986,2198950837,2554220882,3999719339,2821834349,766784016,2952996808,2566594879,3210313671,3203337956,3336571891,1034457026,3584528711,2466948901,113926993,3758326383,338241895,168717936,666307205,1188179964,773529912,1546045734,1294757372,1522805485,1396182291,2643833823,1695183700,2343527390,1986661051,1014477480,2177026350,1206759142,2456956037,344077627,2730485921,1290863460,2820302411,3158454273,3259730800,3505952657,3345764771,106217008,3516065817,3606008344,3600352804,1432725776,4094571909,1467031594,275423344,851169720,430227734,3100823752,506948616,1363258195,659060556,3750685593,883997877,3785050280,958139571,3318307427,1322822218,3812723403,1537002063,2003034995,1747873779,3602036899,1955562222,1575990012,2024104815,1125592928,2227730452,2716904306,2361852424,442776044,2428436474,593698344,2756734187,3733110249,3204031479,2999351573,3329325298,3815920427,3391569614,3928383900,3515267271,566280711,3940187606,3454069534,4118630271,4000239992,116418474,1914138554,174292421,2731055270,289380356,3203993006,460393269,320620315,685471733,587496836,852142971,1086792851,1017036298,365543100,1126000580,2618297676,1288033470,3409855158,1501505948,4234509866,1607167915,987167468,1816402316,1246189591],W=new Array(160);function Sha512(){this.init(),this._w=W,Hash.call(this,128,112)}function Ch(x,y,z){return z^x&(y^z)}function maj(x,y,z){return x&y|z&(x|y)}function sigma0(x,xl){return(x>>>28|xl<<4)^(xl>>>2|x<<30)^(xl>>>7|x<<25)}function sigma1(x,xl){return(x>>>14|xl<<18)^(x>>>18|xl<<14)^(xl>>>9|x<<23)}function Gamma0(x,xl){return(x>>>1|xl<<31)^(x>>>8|xl<<24)^x>>>7}function Gamma0l(x,xl){return(x>>>1|xl<<31)^(x>>>8|xl<<24)^(x>>>7|xl<<25)}function Gamma1(x,xl){return(x>>>19|xl<<13)^(xl>>>29|x<<3)^x>>>6}function Gamma1l(x,xl){return(x>>>19|xl<<13)^(xl>>>29|x<<3)^(x>>>6|xl<<26)}function getCarry(a,b){return a>>>0<b>>>0?1:0}inherits(Sha512,Hash),Sha512.prototype.init=function(){return this._ah=1779033703,this._bh=3144134277,this._ch=1013904242,this._dh=2773480762,this._eh=1359893119,this._fh=2600822924,this._gh=528734635,this._hh=1541459225,this._al=4089235720,this._bl=2227873595,this._cl=4271175723,this._dl=1595750129,this._el=2917565137,this._fl=725511199,this._gl=4215389547,this._hl=327033209,this},Sha512.prototype._update=function(M){for(var W=this._w,ah=0|this._ah,bh=0|this._bh,ch=0|this._ch,dh=0|this._dh,eh=0|this._eh,fh=0|this._fh,gh=0|this._gh,hh=0|this._hh,al=0|this._al,bl=0|this._bl,cl=0|this._cl,dl=0|this._dl,el=0|this._el,fl=0|this._fl,gl=0|this._gl,hl=0|this._hl,i=0;i<32;i+=2)W[i]=M.readInt32BE(4*i),W[i+1]=M.readInt32BE(4*i+4);for(;i<160;i+=2){var xh=W[i-30],xl=W[i-30+1],gamma0=Gamma0(xh,xl),gamma0l=Gamma0l(xl,xh),gamma1=Gamma1(xh=W[i-4],xl=W[i-4+1]),gamma1l=Gamma1l(xl,xh),Wi7h=W[i-14],Wi7l=W[i-14+1],Wi16h=W[i-32],Wi16l=W[i-32+1],Wil=gamma0l+Wi7l|0,Wih=gamma0+Wi7h+getCarry(Wil,gamma0l)|0;Wih=(Wih=Wih+gamma1+getCarry(Wil=Wil+gamma1l|0,gamma1l)|0)+Wi16h+getCarry(Wil=Wil+Wi16l|0,Wi16l)|0,W[i]=Wih,W[i+1]=Wil}for(var j=0;j<160;j+=2){Wih=W[j],Wil=W[j+1];var majh=maj(ah,bh,ch),majl=maj(al,bl,cl),sigma0h=sigma0(ah,al),sigma0l=sigma0(al,ah),sigma1h=sigma1(eh,el),sigma1l=sigma1(el,eh),Kih=K[j],Kil=K[j+1],chh=Ch(eh,fh,gh),chl=Ch(el,fl,gl),t1l=hl+sigma1l|0,t1h=hh+sigma1h+getCarry(t1l,hl)|0;t1h=(t1h=(t1h=t1h+chh+getCarry(t1l=t1l+chl|0,chl)|0)+Kih+getCarry(t1l=t1l+Kil|0,Kil)|0)+Wih+getCarry(t1l=t1l+Wil|0,Wil)|0;var t2l=sigma0l+majl|0,t2h=sigma0h+majh+getCarry(t2l,sigma0l)|0;hh=gh,hl=gl,gh=fh,gl=fl,fh=eh,fl=el,eh=dh+t1h+getCarry(el=dl+t1l|0,dl)|0,dh=ch,dl=cl,ch=bh,cl=bl,bh=ah,bl=al,ah=t1h+t2h+getCarry(al=t1l+t2l|0,t1l)|0}this._al=this._al+al|0,this._bl=this._bl+bl|0,this._cl=this._cl+cl|0,this._dl=this._dl+dl|0,this._el=this._el+el|0,this._fl=this._fl+fl|0,this._gl=this._gl+gl|0,this._hl=this._hl+hl|0,this._ah=this._ah+ah+getCarry(this._al,al)|0,this._bh=this._bh+bh+getCarry(this._bl,bl)|0,this._ch=this._ch+ch+getCarry(this._cl,cl)|0,this._dh=this._dh+dh+getCarry(this._dl,dl)|0,this._eh=this._eh+eh+getCarry(this._el,el)|0,this._fh=this._fh+fh+getCarry(this._fl,fl)|0,this._gh=this._gh+gh+getCarry(this._gl,gl)|0,this._hh=this._hh+hh+getCarry(this._hl,hl)|0},Sha512.prototype._hash=function(){var H=Buffer.allocUnsafe(64);function writeInt64BE(h,l,offset){H.writeInt32BE(h,offset),H.writeInt32BE(l,offset+4)}return writeInt64BE(this._ah,this._al,0),writeInt64BE(this._bh,this._bl,8),writeInt64BE(this._ch,this._cl,16),writeInt64BE(this._dh,this._dl,24),writeInt64BE(this._eh,this._el,32),writeInt64BE(this._fh,this._fl,40),writeInt64BE(this._gh,this._gl,48),writeInt64BE(this._hh,this._hl,56),H},module.exports=Sha512},{"./hash":209,inherits:158,"safe-buffer":207}],217:[function(require,module,exports){module.exports=Stream;var EE=require("events").EventEmitter;function Stream(){EE.call(this)}require("inherits")(Stream,EE),Stream.Readable=require("readable-stream/readable.js"),Stream.Writable=require("readable-stream/writable.js"),Stream.Duplex=require("readable-stream/duplex.js"),Stream.Transform=require("readable-stream/transform.js"),Stream.PassThrough=require("readable-stream/passthrough.js"),Stream.Stream=Stream,Stream.prototype.pipe=function(dest,options){var source=this;function ondata(chunk){dest.writable&&!1===dest.write(chunk)&&source.pause&&source.pause()}function ondrain(){source.readable&&source.resume&&source.resume()}source.on("data",ondata),dest.on("drain",ondrain),dest._isStdio||options&&!1===options.end||(source.on("end",onend),source.on("close",onclose));var didOnEnd=!1;function onend(){didOnEnd||(didOnEnd=!0,dest.end())}function onclose(){didOnEnd||(didOnEnd=!0,"function"==typeof dest.destroy&&dest.destroy())}function onerror(er){if(cleanup(),0===EE.listenerCount(this,"error"))throw er}function cleanup(){source.removeListener("data",ondata),dest.removeListener("drain",ondrain),source.removeListener("end",onend),source.removeListener("close",onclose),source.removeListener("error",onerror),dest.removeListener("error",onerror),source.removeListener("end",cleanup),source.removeListener("close",cleanup),dest.removeListener("close",cleanup)}return source.on("error",onerror),dest.on("error",onerror),source.on("end",cleanup),source.on("close",cleanup),dest.on("close",cleanup),dest.emit("pipe",source),dest}},{events:126,inherits:158,"readable-stream/duplex.js":191,"readable-stream/passthrough.js":202,"readable-stream/readable.js":203,"readable-stream/transform.js":204,"readable-stream/writable.js":205}],218:[function(require,module,exports){arguments[4][201][0].apply(exports,arguments)},{dup:201,"safe-buffer":207}],219:[function(require,module,exports){(function(setImmediate,clearImmediate){(function(){var nextTick=require("process/browser.js").nextTick,apply=Function.prototype.apply,slice=Array.prototype.slice,immediateIds={},nextImmediateId=0;function Timeout(id,clearFn){this._id=id,this._clearFn=clearFn}exports.setTimeout=function(){return new Timeout(apply.call(setTimeout,window,arguments),clearTimeout)},exports.setInterval=function(){return new Timeout(apply.call(setInterval,window,arguments),clearInterval)},exports.clearTimeout=exports.clearInterval=function(timeout){timeout.close()},Timeout.prototype.unref=Timeout.prototype.ref=function(){},Timeout.prototype.close=function(){this._clearFn.call(window,this._id)},exports.enroll=function(item,msecs){clearTimeout(item._idleTimeoutId),item._idleTimeout=msecs},exports.unenroll=function(item){clearTimeout(item._idleTimeoutId),item._idleTimeout=-1},exports._unrefActive=exports.active=function(item){clearTimeout(item._idleTimeoutId);var msecs=item._idleTimeout;msecs>=0&&(item._idleTimeoutId=setTimeout((function(){item._onTimeout&&item._onTimeout()}),msecs))},exports.setImmediate="function"==typeof setImmediate?setImmediate:function(fn){var id=nextImmediateId++,args=!(arguments.length<2)&&slice.call(arguments,1);return immediateIds[id]=!0,nextTick((function(){immediateIds[id]&&(args?fn.apply(null,args):fn.call(null),exports.clearImmediate(id))})),id},exports.clearImmediate="function"==typeof clearImmediate?clearImmediate:function(id){delete immediateIds[id]}}).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)},{"process/browser.js":181,timers:219}],220:[function(require,module,exports){(function(global){(function(){function config(name){try{if(!global.localStorage)return!1}catch(_){return!1}var val=global.localStorage[name];return null!=val&&"true"===String(val).toLowerCase()}module.exports=function(fn,msg){if(config("noDeprecation"))return fn;var warned=!1;return function(){if(!warned){if(config("throwDeprecation"))throw new Error(msg);config("traceDeprecation")?console.trace(msg):console.warn(msg),warned=!0}return fn.apply(this,arguments)}}}).call(this)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[1])(1)}));
 </script>
+        <script>debounce = new (function() {
+
+    let eventWatchers = {}; // key is element id
+
+    function addEventListener(el, evt, handler) {
+        // get id
+        let id = el.getAttribute("id");
+        if (!id) {
+            console.log("Tried to create event listener with no id:");
+            console.log(el);
+            return;
+        }
+        // add listener
+        el.addEventListener(evt, function(e) {
+            let id = e.target.getAttribute("id");
+            if (id in eventWatchers) {
+                clearTimeout(eventWatchers[id]);
+            }
+            eventWatchers[id] = setTimeout(function() {
+                delete eventWatchers[id];
+                handler(e);
+            }, 200);
+        });
+    }
+
+    return addEventListener;
+
+})()
+</script>
         <script>(function() {
 
     let DOM = {};
@@ -7182,12 +7258,12 @@ var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){fo
     }
 
     function setEvents() {
-        DOM.mnemonic.addEventListener("input", mnemonicChanged);
+        debounce(DOM.mnemonic, "input", mnemonicChanged);
         DOM.generate.addEventListener("click", generate);
-        DOM.passphrase.addEventListener("input", processMnemonic);
-        DOM.seed.addEventListener("input", seedChanged);
-        DOM.masterSecretKey.addEventListener("input", masterSecretKeyChanged);
-        DOM.path.addEventListener("input", pathChanged);
+        debounce(DOM.passphrase, "input", processMnemonic);
+        debounce(DOM.seed, "input", seedChanged);
+        debounce(DOM.masterSecretKey, "input", masterSecretKeyChanged);
+        debounce(DOM.path, "input", pathChanged);
         DOM.moreRows.addEventListener("click", showRows);
         DOM.suggestedPaths.forEach(function(e, i) {
             e.addEventListener("click", setSuggestedPath);
@@ -7202,23 +7278,17 @@ var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){fo
         let strength = parseInt(DOM.strength.value);
         let mnemonic = libs.bip39.generateMnemonic(strength);
         DOM.mnemonic.value = mnemonic;
-        mnemonicChanged();
-    }
-
-    function mnemonicChanged(e) {
-        if (e) {
-            e.preventDefault();
-        }
-        let mnemonic = DOM.mnemonic.value
-        // TODO verify?
         processMnemonic();
     }
 
-    function processMnemonic(e) {
-        if (e) {
-            e.preventDefault();
-        }
+    function mnemonicChanged(e) {
+        e.preventDefault();
+        processMnemonic();
+    }
+
+    function processMnemonic() {
         let mnemonic = DOM.mnemonic.value;
+        // TODO verify?
         let passphrase = DOM.passphrase.value;
         seed = libs.bip39.mnemonicToSeedSync(mnemonic, passphrase);
         let seedHex = seed.toString("hex");
@@ -7263,7 +7333,9 @@ var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){fo
     }
 
     function pathChanged(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         clearTable();
         showRows();
     }
@@ -7272,24 +7344,30 @@ var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){fo
         e.preventDefault();
         let path = e.target.textContent;
         DOM.path.value = path;
-        clearTable();
-        showRows();
+        pathChanged();
     }
 
     function showRows() {
         let rowsToAdd = parseInt(DOM.numRows.value);
         let startIndex = parseInt(DOM.startIndex.value) || currentTableIndex + 1;
         let masterSecretKey = new libs.buffer.Buffer(hexToBytes(DOM.masterSecretKey.value));
+        // TODO validate masterSecretKey
         let template = DOM.keyRow.innerHTML;
         let path = DOM.path.value;
         for (let i=startIndex; i<startIndex+rowsToAdd; i++) {
-            let childPath = path.replace("i", i);
+            let childPath = path.replace(/i/g, i);
             // libs.blshdkey.pathToIndices is too strict
-            let childIndices = childPath.replace("m/", "").split("/").map(function(e) { return parseInt(e) });
+            let childIndices = getIndices(childPath);
             let childSk = masterSecretKey;
             for (let i=0; i<childIndices.length; i++) {
                 let childIndice = childIndices[i];
-                childSk = libs.blshdkey.deriveChildSK(childSk, childIndice);
+                try {
+                    childSk = libs.blshdkey.deriveChildSK(childSk, childIndice);
+                }
+                catch (e) {
+                    // TODO show error?
+                    return;
+                }
             }
             let childPk = libs.noblebls.getPublicKey(childSk);
             // show in table
@@ -7328,6 +7406,18 @@ var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){fo
         DOM.derivedKeys.innerHTML = "";
         currentTableIndex = -1;
         DOM.startIndex.value = ""
+    }
+
+    function getIndices(path) {
+        let indices = [];
+        let bits = path.split("/");
+        for (let i=0; i<bits.length; i++) {
+            let indice = parseInt(bits[i]);
+            if (!(isNaN(indice))) {
+                indices.push(indice);
+            }
+        }
+        return indices;
     }
 
     init();
