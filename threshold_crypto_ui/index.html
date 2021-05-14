@@ -14,7 +14,8 @@
     right: 15px;
 }
 
-input,
+input[type='text'],
+input[type='number'],
 textarea,
 div[contenteditable="true"] {
     font-family: Monospace;
@@ -72,6 +73,10 @@ table.shares td {
     padding: 10px 0;
     margin: 1px 0;
 }
+
+#encoding .option {
+    margin-bottom: 5px;
+}
 </style>
         <meta content="BLS threshold crypto interface" name="description"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -80,7 +85,7 @@ table.shares td {
     </head>
 <body>
 
-    <p class="version">v0.3.0</p>
+    <p class="version">v0.3.1</p>
 
     <h1>BLS Threshold Crypto</h1>
     <p>
@@ -109,18 +114,49 @@ table.shares td {
 
     <hr>
 
+    <div id="encoding">
+        <p id="binary">
+            Encoding for binary data:
+            <div class="option">
+                <input type="radio" name="binary-encoding" id="binary-hex" value="hex" checked>
+                <label for="binary-hex">hex</label>
+            </div>
+            <div class="option">
+                <input type="radio" name="binary-encoding" id="binary-bytes" value="bytes">
+                <label for="binary-bytes">bytes</label>
+            </div>
+        </p>
+        <p id="message">
+            Encoding for messages:
+            <div class="option">
+                <input type="radio" name="message-encoding" id="message-ascii" value="ascii" checked>
+                <label for="message-ascii">ascii</label>
+            </div>
+            <div class="option">
+                <input type="radio" name="message-encoding" id="message-hex" value="hex">
+                <label for="message-hex">hex</label>
+            </div>
+            <div class="option">
+                <input type="radio" name="message-encoding" id="message-bytes" value="bytes">
+                <label for="message-bytes">bytes</label>
+            </div>
+        </p>
+    </div>
+
+    <hr>
+
     <div id="sk-to-pk">
         <h2>Derive Public Key From Secret Key</h2>
 
         <p>
-        Input: Secret Key Hex (as per bincode serialization),
-        32 bytes ie 64 hex chars, or
+        Input: Secret Key,
+        32 bytes or 64 hex chars, or
         <button class="generate">generate</button> a random key.
         </p>
-        <input class="sk-hex" placeholder="eg 7b4ecc...">
+        <input type="text" class="sk" placeholder="eg 7b4ecc..." data-encoding-type="binary">
 
-        <p>Output: Public Key Hex, 48 bytes ie 96 hex chars.</p>
-        <input class="pk-hex" placeholder="eg a32fc9...">
+        <p>Output: Public Key Hex, 48 bytes or 96 hex chars.</p>
+        <input type="text" class="pk" placeholder="eg a32fc9..." data-encoding-type="binary">
 
         <p class="error text-red hidden"></p>
     </div>
@@ -132,23 +168,23 @@ table.shares td {
         <h2>Sign Message</h2>
 
         <p>
-        Input: Secret Key Hex (as per bincode serialization),
-        32 bytes ie 64 hex chars.
+        Input: Secret Key.
+        32 bytes or 64 hex chars.
         </p>
-        <input class="sk-hex" placeholder="eg 7b4ecc...">
+        <input type="text" class="sk" placeholder="eg 7b4ecc..." data-encoding-type="binary">
 
         <p>
-        Input: Message can be any ascii input.
+        Input: Message.
         Copy and Paste from a text editor rather than typing manually is
         recommended here.
         </p>
-        <input class="msg" placeholder="eg This is my message">
+        <input type="text" class="msg" placeholder="eg This is my message" data-encoding-type="message">
 
         <p>
         Output: The signature for this message will appear here, 96 bytes ie
         192 hex chars.
         </p>
-        <input class="sig" placeholder="Signature will appear here.">
+        <input type="text" class="sig" placeholder="Signature will appear here." data-encoding-type="binary">
 
         <p class="error text-red hidden"></p>
     <hr>
@@ -157,25 +193,25 @@ table.shares td {
 
         <h2>Verify Signature</h2>
 
-        <p>Input: Public Key Hex, 48 bytes ie 96 hex chars.</p>
-        <input class="pk-hex" placeholder="eg a32fc9...">
+        <p>Input: Public Key, 48 bytes or 96 hex chars.</p>
+        <input type="text" class="pk" placeholder="eg a32fc9..." data-encoding-type="binary">
 
         <p>
-        Input: Message can be any ascii input.
+        Input: Message.
         Copy and Paste from a text editor rather than typing manually is
         recommended here.
         </p>
-        <input class="msg" placeholder="eg This is my message">
+        <input type="text" class="msg" placeholder="eg This is my message" data-encoding-type="message">
 
         <p>
         Input: The signature for this message.
         </p>
-        <input class="sig" placeholder="eg 8ad3c2...">
+        <input type="text" class="sig" placeholder="eg 8ad3c2..." data-encoding-type="binary">
 
         <p>
         Output: Whether the signature is valid or not.
         </p>
-        <input class="valid" placeholder="Will show 'valid' or 'invalid'">
+        <input type="text" class="valid" placeholder="Will show 'valid' or 'invalid'">
 
         <p class="error text-red hidden"></p>
     </div>
@@ -186,21 +222,21 @@ table.shares td {
 
         <h2>Encrypt Message</h2>
 
-        <p>Input: Recipient Public Key Hex, 48 bytes ie 96 hex chars.</p>
-        <input class="pk-hex" placeholder="eg a32fc9...">
+        <p>Input: Recipient Public Key, 48 bytes or 96 hex chars.</p>
+        <input type="text" class="pk" placeholder="eg a32fc9..." data-encoding-type="binary">
 
         <p>
-        Input: Message can be any ascii input.
+        Input: Message.
         Copy and Paste from a text editor rather than typing manually is
         recommended here.
         </p>
-        <input class="msg" placeholder="eg This is my message">
+        <input type="text" class="msg" placeholder="eg This is my message" data-encoding-type="message">
 
         <p>
         Output: The encrypted version of this message for sending to the
         recipient.
         </p>
-        <input class="ct" placeholder="Encrypted message will appear here.">
+        <input type="text" class="ct" placeholder="Encrypted message will appear here." data-encoding-type="binary">
 
         <p class="error text-red hidden"></p>
     </div>
@@ -212,20 +248,20 @@ table.shares td {
         <h2>Decrypt Message</h2>
 
         <p>
-        Input: Secret Key Hex (as per bincode serialization),
-        32 bytes ie 64 hex chars.
+        Input: Secret Key.
+        32 bytes or 64 hex chars.
         </p>
-        <input class="sk-hex" placeholder="eg 7b4ecc...">
+        <input type="text" class="sk" placeholder="eg 7b4ecc..." data-encoding-type="binary">
 
         <p>
-        Input: The encrypted message (hex encoded).
+        Input: The encrypted message.
         </p>
-        <input class="ct" placeholder="Encrypted message will appear here.">
+        <input type="text" class="ct" placeholder="eg 82a99b..." data-encoding-type="binary">
 
         <p>
-        Output: The decrypted message (ascii encoded).
+        Output: The decrypted message.
         </p>
-        <input class="msg" placeholder="eg This is my message">
+        <input type="text" class="msg" placeholder="eg This is my message" data-encoding-type="message">
 
         <p class="error text-red hidden"></p>
     </div>
@@ -250,14 +286,14 @@ table.shares td {
         (this is the m in m-of-n). Minimum 2, maximum 10. Make a secure backup
         of poly if you want to derive key shares in the future.
         </p>
-        <input class="poly-hex" placeholder="eg 7b4ecc...">
+        <input type="text" class="poly-hex" placeholder="eg 7b4ecc...">
 
         <p>
         Output: Master Secret Key Hex, 48 bytes ie 96 hex chars.
         Never used for anything and should never be shared, just shown here
         for information.
         </p>
-        <input class="msk-hex" placeholder="eg 39f3bb0...">
+        <input type="text" class="msk-hex" placeholder="eg 39f3bb0...">
 
         <p>
         Output: Master Public Key Hex, 48 bytes ie 96 hex chars.
@@ -266,14 +302,14 @@ table.shares td {
         signatures will be aggregated to produce a combined signature which
         can be verified with this master public key.
         </p>
-        <input class="mpk-hex" placeholder="eg a32fc9...">
+        <input type="text" class="mpk-hex" placeholder="eg a32fc9...">
 
         <p>
         Output: Master Commitment Hex.
         This is the basis of the Master Public Key and is needed for
         combining signature or decryption shares.
         </p>
-        <input class="mc-hex" placeholder="eg b43a04...">
+        <input type="text" class="mc-hex" placeholder="eg b43a04...">
 
         <p>
         Show
@@ -349,14 +385,14 @@ table.shares td {
         messages. This is generated in Step 5, shown below the table, but is
         shown here because it's known by all participants.
         </p>
-        <input class="mpk-hex" placeholder="eg a32fc9...">
+        <input type="text" class="mpk-hex" placeholder="eg a32fc9...">
 
         <p>
         Output: The group master commitment used when decrypting and signing
         messages. This is generated in Step 5, shown below the table, but is
         shown here because it's known by all participants.
         </p>
-        <input class="mc-hex" placeholder="eg b43ad0...">
+        <input type="text" class="mc-hex" placeholder="eg b43ad0...">
 
         <p>
         Hover on a cell, the details of the relevant shares will
@@ -410,7 +446,7 @@ table.shares td {
             The public portion is shared to all nodes and combined into
             the group master public key in Step 5.
         </p>
-        <input class="share-creation">
+        <input type="text" class="share-creation">
 
         <p>
             Step 2: Listed below are shares node
@@ -458,14 +494,14 @@ table.shares td {
             <span class="receiver-id">0</span>
             in Step 3.
         </p>
-        <input class="skshare-hex" placeholder="eg 9bb286...">
+        <input type="text" class="skshare-hex" placeholder="eg 9bb286...">
 
         <p>
             Step 4b: Public Key Share for node
             <span class="receiver-id">0</span>.
             This is derived from the secret key in Step 4.
         </p>
-        <input class="pkshare-hex" placeholder="eg 209a48...">
+        <input type="text" class="pkshare-hex" placeholder="eg 209a48...">
 
         <p>
             Step 5: The group master public key can be derived by any node by
@@ -503,7 +539,7 @@ table.shares td {
         But it's handy for using elsewhere in this tool,
         such as the input for Simple Threshold Keys.
         </p>
-        <input class="msk-poly-hex"></textarea>
+        <input type="text" class="msk-poly-hex">
 
     </div>
 
@@ -530,14 +566,14 @@ table.shares td {
         <a href="#dkg">DKG</a>
         and should be known by all nodes in the group.
         </p>
-        <input class="mc-hex" placeholder="eg 800bfc9...">
+        <input type="text" class="mc-hex" placeholder="eg 800bfc9...">
 
         <p>
-        Input: Message can be any ascii input.
+        Input: Message.
         Copy and Paste from a text editor rather than typing manually is
         recommended here.
         </p>
-        <input class="msg" placeholder="eg This group formed in August 2020">
+        <input type="text" class="msg" placeholder="eg This group formed in August 2020">
 
         <p>
         Output: Signature Shares. These are combined into the group signature
@@ -557,7 +593,7 @@ table.shares td {
         the signature can serve as a pseudorandom number unknown to anyone
         until m participants agree to reveal it.
         </p>
-        <input class="sig">
+        <input type="text" class="sig">
 
     </div>
 
@@ -621,7 +657,7 @@ table.shares td {
         <a href="#dkg">DKG</a>
         and should be known by all nodes in the group.
         </p>
-        <input class="mc-hex" placeholder="eg 800bfc9...">
+        <input type="text" class="mc-hex" placeholder="eg 800bfc9...">
 
         <p>
         Input: Ciphertext. This is text encrypted using the group Master
@@ -629,7 +665,7 @@ table.shares td {
         <a href="#encrypt">encrypt</a>
         section.
         </p>
-        <input class="ct">
+        <input type="text" class="ct">
 
         <p>
         Output: Decryption Shares. These are combined into the decrypted
@@ -644,7 +680,7 @@ table.shares td {
         m-of-n members of the group have provided their decryption share.
         If less than m shares are combined the message will be invalid.
         </p>
-        <input class="msg">
+        <input type="text" class="msg">
 
     </div>
 
@@ -715,10 +751,16 @@ function uint8ArrayToAscii(a) {
 }
 // https://stackoverflow.com/a/50868276
 function hexToUint8Array(h) {
+    if (h.length == 0) {
+        return new Uint8Array();
+    }
     return new Uint8Array(h.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 }
 function uint8ArrayToHex(a) {
     return a.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
+}
+function uint8ArrayToByteStr(a) {
+    return "[" + a.join(", ") + "]";
 }
 // https://stackoverflow.com/a/12713326
 function uint8ArrayToBase64(a) {
@@ -2625,6 +2667,186 @@ this.combine_decryption_shares = function(totalShares, mcSize, ctSize) {
 
 })();
 </script>
+    <script>let encoding = new (function() {
+
+    // manages the display of data as either
+    // hex
+    // bytes string
+    // ascii
+
+    let self = this;
+
+    this.binaryEncoding = "hex";
+    this.messageEncoding = "ascii";
+
+    let binaryHex = document.getElementById("binary-hex");
+    let binaryBytes = document.getElementById("binary-bytes");
+    let messageAscii = document.getElementById("message-ascii");
+    let messageHex = document.getElementById("message-hex");
+    let messageBytes = document.getElementById("message-bytes");
+
+    let binaryInputs = document.querySelectorAll("[data-encoding-type='binary']");
+    let messageInputs = document.querySelectorAll("[data-encoding-type='message']");
+
+    binaryHex.addEventListener("click", changeBinaryEncoding);
+    binaryBytes.addEventListener("click", changeBinaryEncoding);
+    messageAscii.addEventListener("click", changeMessageEncoding);
+    messageHex.addEventListener("click", changeMessageEncoding);
+    messageBytes.addEventListener("click", changeMessageEncoding);
+
+    function changeBinaryEncoding(e) {
+        let newEncoding = e.target.value;
+        if (self.binaryEncoding == "bytes") {
+            if (newEncoding == "hex") {
+                for (let i=0; i<binaryInputs.length; i++) {
+                    let input = binaryInputs[i];
+                    let byteStr = input.value;
+                    let bytes = JSON.parse(byteStr);
+                    let hex = uint8ArrayToHex(bytes);
+                    input.value = hex;
+                }
+            }
+        }
+        else if (self.binaryEncoding == "hex") {
+            if (newEncoding == "bytes") {
+                for (let i=0; i<binaryInputs.length; i++) {
+                    let input = binaryInputs[i];
+                    let hex = input.value;
+                    let bytes = hexToUint8Array(hex);
+                    let byteStr = uint8ArrayToByteStr(bytes);
+                    input.value = byteStr;
+                }
+            }
+        }
+        self.binaryEncoding = newEncoding;
+    }
+
+    function changeMessageEncoding(e) {
+        let newEncoding = e.target.value;
+        if (self.messageEncoding == "ascii") {
+            if (newEncoding == "hex") {
+                for (let i=0; i<messageInputs.length; i++) {
+                    let input = messageInputs[i];
+                    let ascii = input.value;
+                    let bytes = asciiToUint8Array(ascii);
+                    let hex = uint8ArrayToHex(bytes);
+                    input.value = hex;
+                }
+            }
+            else if (newEncoding == "bytes") {
+                for (let i=0; i<messageInputs.length; i++) {
+                    let input = messageInputs[i];
+                    let ascii = input.value;
+                    let bytes = asciiToUint8Array(ascii);
+                    let byteStr = uint8ArrayToByteStr(bytes);
+                    input.value = byteStr;
+                }
+            }
+        }
+        if (self.messageEncoding == "hex") {
+            if (newEncoding == "ascii") {
+                for (let i=0; i<messageInputs.length; i++) {
+                    let input = messageInputs[i];
+                    let hex = input.value;
+                    let bytes = hexToUint8Array(hex);
+                    let ascii = uint8ArrayToAscii(bytes);
+                    input.value = ascii;
+                }
+            }
+            else if (newEncoding == "bytes") {
+                for (let i=0; i<messageInputs.length; i++) {
+                    let input = messageInputs[i];
+                    let hex = input.value;
+                    let bytes = hexToUint8Array(hex);
+                    let byteStr = uint8ArrayToByteStr(bytes);
+                    input.value = byteStr;
+                }
+            }
+        }
+        else if (self.messageEncoding == "bytes") {
+            if (newEncoding == "ascii") {
+                for (let i=0; i<messageInputs.length; i++) {
+                    let input = messageInputs[i];
+                    let byteStr = input.value;
+                    let bytes = JSON.parse(byteStr);
+                    let ascii = uint8ArrayToAscii(bytes);
+                    input.value = ascii;
+                }
+            }
+            else if (newEncoding == "hex") {
+                for (let i=0; i<messageInputs.length; i++) {
+                    let input = messageInputs[i];
+                    let byteStr = input.value;
+                    let bytes = JSON.parse(byteStr);
+                    let hex = uint8ArrayToHex(bytes);
+                    input.value = hex;
+                }
+            }
+        }
+        self.messageEncoding = newEncoding;
+    }
+
+    this.parseValue = function(el) {
+        let value = el.value;
+        let bytes = [];
+        let encoding = el.getAttribute("data-encoding-type");
+        if (encoding == "binary") {
+            if (self.binaryEncoding == "hex") {
+                bytes = hexToUint8Array(value);
+            }
+            else if (self.binaryEncoding == "bytes") {
+                bytes = JSON.parse(value);
+            }
+        }
+        else if (encoding == "message") {
+            if (self.messageEncoding == "ascii") {
+                bytes = asciiToUint8Array(value);
+            }
+            else if (self.messageEncoding == "hex") {
+                bytes = hexToUint8Array(value);
+            }
+            else if (self.messageEncoding == "bytes") {
+                bytes = JSON.parse(value);
+            }
+        }
+        else {
+            console.log("Unknown data-encoding-type for el");
+            console.log(el);
+        }
+        return bytes;
+    }
+
+    this.updateElWithBytes = function(el, bytes) {
+        let value = "";
+        let encoding = el.getAttribute("data-encoding-type");
+        if (encoding == "binary") {
+            if (self.binaryEncoding == "hex") {
+                value = uint8ArrayToHex(bytes);
+            }
+            else if (self.binaryEncoding == "bytes") {
+                value = uint8ArrayToByteStr(bytes);
+            }
+        }
+        else if (encoding == "message") {
+            if (self.messageEncoding == "ascii") {
+                value = uint8ArrayToAscii(bytes);
+            }
+            else if (self.messageEncoding == "hex") {
+                value = uint8ArrayToHex(bytes);
+            }
+            else if (self.messageEncoding == "bytes") {
+                value = uint8ArrayToByteStr(bytes);
+            }
+        }
+        else {
+            console.log("Unknown data-encoding-type for el");
+            console.log(el);
+        }
+        el.value = value;
+    }
+
+})();
+</script>
     <script>ErrorDisplay = function(selector) {
 
     let el = document.querySelectorAll(selector)[0];
@@ -2644,8 +2866,8 @@ let errorMessages = {
 
     skLength: function(size) {
         let errMsg = "Secret Key length must be ";
-        errMsg += (skLen * 2).toString();
-        errMsg += " hex chars, ";
+        errMsg += (skLen).toString();
+        errMsg += " bytes, ";
         errMsg += size.toString();
         errMsg += " provided.";
         return errMsg;
@@ -2653,8 +2875,8 @@ let errorMessages = {
 
     pkLength: function(size) {
     let errMsg = "Public Key length must be ";
-        errMsg += (pkLen * 2).toString();
-        errMsg += " hex chars, ";
+        errMsg += (pkLen).toString();
+        errMsg += " bytes, ";
         errMsg += size.toString();
         errMsg += " provided.";
         return errMsg;
@@ -2662,26 +2884,26 @@ let errorMessages = {
 
     sigLength: function(size) {
         let errMsg = "Signature length must be ";
-        errMsg += (sigLen * 2).toString();
-        errMsg += " hex chars, ";
+        errMsg += (sigLen).toString();
+        errMsg += " bytes, ";
         errMsg += size.toString();
         errMsg += " provided.";
         return errMsg;
     },
 
     msgLength: function(size) {
-        let errMsg = "Message length must be ";
+        let errMsg = "Message length must be no more than ";
         errMsg += (maxMsgLen).toString();
-        errMsg += " chars, ";
+        errMsg += " bytes, ";
         errMsg += size.toString();
         errMsg += " provided.";
         return errMsg;
     },
 
     ctLength: function(size) {
-        let errMsg = "Ciphertext length must be ";
-        errMsg += (ctLen * 2).toString();
-        errMsg += " hex chars, ";
+        let errMsg = "Ciphertext length must be no more than ";
+        errMsg += (ctLen).toString();
+        errMsg += " bytes, ";
         errMsg += size.toString();
         errMsg += " provided.";
         return errMsg;
@@ -2715,18 +2937,18 @@ let errorMessages = {
 
 DOM.skToPk = {};
 DOM.skToPk.generate = document.querySelectorAll("#sk-to-pk .generate")[0];
-DOM.skToPk.skHex = document.querySelectorAll("#sk-to-pk .sk-hex")[0];
-DOM.skToPk.pkHex = document.querySelectorAll("#sk-to-pk .pk-hex")[0];
+DOM.skToPk.sk = document.querySelectorAll("#sk-to-pk .sk")[0];
+DOM.skToPk.pk = document.querySelectorAll("#sk-to-pk .pk")[0];
 
-DOM.skToPk.skHex.addEventListener("input", skHexToPkHex);
+DOM.skToPk.sk.addEventListener("input", skToPk);
 DOM.skToPk.generate.addEventListener("click", generateSk);
 
 let deriveError = new ErrorDisplay("#sk-to-pk .error");
 
 function generateSk() {
     // Clear existing values
-    DOM.skToPk.skHex.value = "";
-    DOM.skToPk.pkHex.value = "";
+    DOM.skToPk.sk.value = "";
+    DOM.skToPk.pk.value = "";
     // Not all entropy can be deserialized by threshold_crypto.
     // Try up to ten times until we get a valid sk.
     let max_retries = 20;
@@ -2734,9 +2956,8 @@ function generateSk() {
         try {
             let entropy = new Uint8Array(skLen);
             window.crypto.getRandomValues(entropy);
-            let h = uint8ArrayToHex(entropy);
-            DOM.skToPk.skHex.value = h;
-            skHexToPkHex();
+            encoding.updateElWithBytes(DOM.skToPk.sk, entropy);
+            skToPk();
             console.log((i+1) + " attempts to generate sk");
             break;
         }
@@ -2746,33 +2967,29 @@ function generateSk() {
     }
 }
 
-function skHexToPkHex() {
+function skToPk() {
     deriveError.hide();
     // if already using wasm buffers, try again later
     if (isWasming) {
-        setTimeout(skHexToPkHex, 200);
+        setTimeout(skToPk, 200);
         return;
     }
     // clear existing value
-    DOM.skToPk.pkHex.value = "";
-    // get secret key hex from UI
-    let skHex = DOM.skToPk.skHex.value.trim();
-    if (skHex.length == 0) {
+    DOM.skToPk.pk.value = "";
+    // get secret key value from UI
+    let skBytes = encoding.parseValue(DOM.skToPk.sk);
+    if (skBytes.length == 0) {
         return;
     }
-    if (skHex.length != skLen * 2) {
-        let errMsg = errorMessages.skLength(skHex.length);
+    if (skBytes.length != skLen) {
+        let errMsg = errorMessages.skLength(skBytes.length);
         deriveError.show(errMsg);
         return;
     }
-    // convert sk to bytes
-    let b = hexToUint8Array(skHex);
     // get public key from sk, will be 48 bytes ie 96 hex chars
-    let pkBytes = wasmHelpers.sk_bytes_to_pk_bytes(b);
-    // convert pk to hex
-    let pkHex = uint8ArrayToHex(pkBytes);
-    // show in UI
-    DOM.skToPk.pkHex.value = pkHex;
+    let pkBytes = wasmHelpers.sk_bytes_to_pk_bytes(skBytes);
+    // display pk
+    encoding.updateElWithBytes(DOM.skToPk.pk, pkBytes);
 }
 
 })();
@@ -2780,11 +2997,11 @@ function skHexToPkHex() {
     <script>(function() {
 
 DOM.signMsg = {};
-DOM.signMsg.skHex = document.querySelectorAll("#sign-msg .sk-hex")[0];
+DOM.signMsg.sk = document.querySelectorAll("#sign-msg .sk")[0];
 DOM.signMsg.msg = document.querySelectorAll("#sign-msg .msg")[0];
 DOM.signMsg.sig = document.querySelectorAll("#sign-msg .sig")[0];
 
-DOM.signMsg.skHex.addEventListener("input", signMsg);
+DOM.signMsg.sk.addEventListener("input", signMsg);
 DOM.signMsg.msg.addEventListener("input", signMsg);
 
 let signError = new ErrorDisplay("#sign-msg .error");
@@ -2804,33 +3021,29 @@ function signMsg() {
     signDebounce = setTimeout(function() {
         // clear existing value
         DOM.signMsg.sig.value = "";
-        // get secret key hex from UI
-        let skHex = DOM.signMsg.skHex.value.trim();
-        if (skHex.length == 0) {
+        // get secret key from UI
+        let skBytes = encoding.parseValue(DOM.signMsg.sk);
+        if (skBytes.length == 0) {
             return;
         }
-        if (skHex.length != skLen * 2) {
-            let errMsg = errorMessages.skLength(skHex.length);
+        if (skBytes.length != skLen) {
+            let errMsg = errorMessages.skLength(skBytes.length);
             signError.show(errMsg);
             return;
         }
-        // convert sk to bytes
-        let s = hexToUint8Array(skHex);
         // get msg from UI
-        let msg = DOM.signMsg.msg.value; // NB no trim() here
-        if (msg.length <= 0) {
+        let msgBytes = encoding.parseValue(DOM.signMsg.msg); // NB no trim() here
+        if (msgBytes.length <= 0) {
             return
         }
-        if (msg.length > maxMsgLen) {
-            let errMsg = errorMessages.msgLength(msg.length);
+        if (msgBytes.length > maxMsgLen) {
+            let errMsg = errorMessages.msgLength(msgBytes.length);
             signError.show(errMsg);
             return;
         }
-        let m = asciiToUint8Array(msg);
         // get signature
-        let sigBytes = wasmHelpers.sign_msg(s, m);
-        let sigHex = uint8ArrayToHex(sigBytes);
-        DOM.signMsg.sig.value = sigHex;
+        let sigBytes = wasmHelpers.sign_msg(skBytes, msgBytes);
+        encoding.updateElWithBytes(DOM.signMsg.sig, sigBytes);
     }, 200);
 }
 
@@ -2839,12 +3052,12 @@ function signMsg() {
     <script>(function() {
 
 DOM.verify = {};
-DOM.verify.pkHex = document.querySelectorAll("#verify .pk-hex")[0];
+DOM.verify.pk = document.querySelectorAll("#verify .pk")[0];
 DOM.verify.msg = document.querySelectorAll("#verify .msg")[0];
 DOM.verify.sig = document.querySelectorAll("#verify .sig")[0];
 DOM.verify.valid = document.querySelectorAll("#verify .valid")[0];
 
-DOM.verify.pkHex.addEventListener("input", verify);
+DOM.verify.pk.addEventListener("input", verify);
 DOM.verify.msg.addEventListener("input", verify);
 DOM.verify.sig.addEventListener("input", verify);
 
@@ -2865,43 +3078,38 @@ function verify() {
     verifyDebounce = setTimeout(function() {
         // clear existing value
         DOM.verify.valid.value = "";
-        // get public key hex from UI
-        let pkHex = DOM.verify.pkHex.value.trim();
-        if (pkHex.length == 0) {
+        // get public key from UI
+        let pkBytes = encoding.parseValue(DOM.verify.pk);
+        if (pkBytes.length == 0) {
             return;
         }
-        if (pkHex.length != pkLen * 2) {
-            let errMsg = errorMessages.pkLength(pkHex.length);
+        if (pkBytes.length != pkLen) {
+            let errMsg = errorMessages.pkLength(pkBytes.length);
             verifyError.show(errMsg);
             return;
         }
-        // convert public key to bytes
-        let p = hexToUint8Array(pkHex);
-        // get signature hex from UI
-        let sigHex = DOM.verify.sig.value.trim();
-        if (sigHex.length == 0) {
+        // get signature from UI
+        let sigBytes = encoding.parseValue(DOM.verify.sig);
+        if (sigBytes.length == 0) {
             return;
         }
-        if (sigHex.length != 192) {
-            let errMsg = sigErrMsg(sigHex.length);
+        if (sigBytes.length != 96) {
+            let errMsg = errorMessages.sigLength(sigBytes.length);
             verifyError.show(errMsg);
             return;
         }
-        // convert signature to bytes
-        let s = hexToUint8Array(sigHex);
         // get msg from UI
-        let msg = DOM.verify.msg.value; // NB no trim() here
-        if (msg.length == 0) {
+        let msgBytes = encoding.parseValue(DOM.verify.msg);
+        if (msgBytes.length == 0) {
             return;
         }
-        if (msg.length > maxMsgLen) {
-            let errMsg = msgErrMsg(msg.length);
+        if (msgBytes.length > maxMsgLen) {
+            let errMsg = msgErrMsg(msgBytes.length);
             verifyError.show(errMsg);
             return;
         }
-        let m = asciiToUint8Array(msg);
         // verify
-        let valid = wasmHelpers.verify(p, s, m);
+        let valid = wasmHelpers.verify(pkBytes, sigBytes, msgBytes);
         DOM.verify.valid.value = valid ? "valid" : "invalid";
     }, 200);
 }
@@ -2911,11 +3119,11 @@ function verify() {
     <script>(function() {
 
 DOM.encrypt = {};
-DOM.encrypt.pkHex = document.querySelectorAll("#encrypt .pk-hex")[0];
+DOM.encrypt.pk = document.querySelectorAll("#encrypt .pk")[0];
 DOM.encrypt.msg = document.querySelectorAll("#encrypt .msg")[0];
 DOM.encrypt.ct = document.querySelectorAll("#encrypt .ct")[0];
 
-DOM.encrypt.pkHex.addEventListener("input", encrypt);
+DOM.encrypt.pk.addEventListener("input", encrypt);
 DOM.encrypt.msg.addEventListener("input", encrypt);
 
 encryptError = new ErrorDisplay("#encrypt .error");
@@ -2935,33 +3143,29 @@ function encrypt() {
     encryptDebounce = setTimeout(function() {
         // clear existing value
         DOM.encrypt.ct.value = "";
-        // get public key hex from UI
-        let pkHex = DOM.encrypt.pkHex.value.trim();
-        if (pkHex.length == 0) {
+        // get public key from UI
+        let pkBytes = encoding.parseValue(DOM.encrypt.pk);
+        if (pkBytes.length == 0) {
             return;
         }
-        if (pkHex.length != pkLen * 2) {
-            let errMsg = errorMessages.pkLength(pkHex.length);
+        if (pkBytes.length != pkLen) {
+            let errMsg = errorMessages.pkLength(pkBytes.length);
             encryptError.show(errMsg);
             return;
         }
-        // convert public key to bytes
-        let p = hexToUint8Array(pkHex);
         // get msg from UI
-        let msg = DOM.encrypt.msg.value; // NB no trim() here
-        if (msg.length == 0) {
+        let msgBytes = encoding.parseValue(DOM.encrypt.msg);
+        if (msgBytes.length == 0) {
             return;
         }
-        if (msg.length > maxMsgLen) {
-            let errMsg = errorMessages.msgLength(msg.length);
+        if (msgBytes.length > maxMsgLen) {
+            let errMsg = errorMessages.msgLength(msgBytes.length);
             encryptError.show(errMsg);
             return;
         }
-        let m = asciiToUint8Array(msg);
         // encrypt
-        let ctBytes = wasmHelpers.encrypt(p, m);
-        let ctHex = uint8ArrayToHex(ctBytes);
-        DOM.encrypt.ct.value = ctHex;
+        let ctBytes = wasmHelpers.encrypt(pkBytes, msgBytes);
+        encoding.updateElWithBytes(DOM.encrypt.ct, ctBytes);
     }, 200);
 }
 
@@ -2970,11 +3174,11 @@ function encrypt() {
     <script>(function() {
 
 DOM.decrypt = {};
-DOM.decrypt.skHex = document.querySelectorAll("#decrypt .sk-hex")[0];
+DOM.decrypt.sk = document.querySelectorAll("#decrypt .sk")[0];
 DOM.decrypt.ct = document.querySelectorAll("#decrypt .ct")[0];
 DOM.decrypt.msg = document.querySelectorAll("#decrypt .msg")[0];
 
-DOM.decrypt.skHex.addEventListener("input", decrypt);
+DOM.decrypt.sk.addEventListener("input", decrypt);
 DOM.decrypt.ct.addEventListener("input", decrypt);
 
 decryptError = new ErrorDisplay("#decrypt .error");
@@ -2988,33 +3192,29 @@ function decrypt() {
     }
     // clear existing value
     DOM.decrypt.msg.value = "";
-    // get secret key hex from UI
-    let skHex = DOM.decrypt.skHex.value.trim();
-    if (skHex.length == 0) {
+    // get secret key from UI
+    let skBytes = encoding.parseValue(DOM.decrypt.sk);
+    if (skBytes.length == 0) {
         return;
     }
-    if (skHex.length != skLen * 2) {
-        let errMsg = errorMessages.skLength(skHex.length);
+    if (skBytes.length != skLen) {
+        let errMsg = errorMessages.skLength(skBytes.length);
         decryptError.show(errMsg);
         return;
     }
-    // convert secret key to bytes
-    let s = hexToUint8Array(skHex);
     // get msg from UI
-    let ctHex = DOM.decrypt.ct.value.trim();
-    if (ctHex.length == 0) {
+    let ctBytes = encoding.parseValue(DOM.decrypt.ct);
+    if (ctBytes.length == 0) {
         return;
     }
-    if (ctHex.length > maxCtLen * 2) {
-        let errMsg = errorMessages.ctLength(ctHex.length);
+    if (ctBytes.length > maxCtLen) {
+        let errMsg = errorMessages.ctLength(ctBytes.length);
         decryptError.show(errMsg);
         return;
     }
-    let c = hexToUint8Array(ctHex);
     // decrypt
-    let msgBytes = wasmHelpers.decrypt(s, c);
-    let msgAscii = uint8ArrayToAscii(msgBytes);
-    DOM.decrypt.msg.value = msgAscii;
+    let msgBytes = wasmHelpers.decrypt(skBytes, ctBytes);
+    encoding.updateElWithBytes(DOM.decrypt.msg, msgBytes);
 }
 
 })();
