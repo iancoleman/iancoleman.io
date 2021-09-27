@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Polynomial Interpolate Demo</title>
+    </head>
+    <body>
+        <h1>Polynomial Interpolation</h1>
+        <h2>Inputs</h2>
+        <p>
+        Show k random points, ie
+        <input id="k" type="number" min="1" value = "2" style="width: 50px">
+        points, and the mouse will be an extra point, ie point
+        <span class="kplusplus">3</span>.
+        These
+        <span class="kplusplus">3</span>
+        points will be used for the interpolation.
+        </p>
+        <p>
+        <button id="generate">Generate</button> new random points.
+        </p>
+        <h2>Output</h2>
+        <p>500 x 500 chart, origin bottom left. Click chart to toggle live update on/off</p>
+        <canvas id="chart" height="500" width="500" style="border: 1px solid #DDD; margin: 20px;"></canvas>
+        <p>
+        Polynomial is y =
+        <span id="poly">
+        <span class="coeff0">a</span>x<sup>0</sup> +
+        <span class="coeff1">b</span>x<sup>1</sup> +
+        <span class="coeff2">c</span>x<sup>2</sup>
+        </span>
+        </p>
+        <p>Points:</p>
+        <div id="points"></div>
+        <p>
+        When x =
+        <input id="x" value="0" type="number" style="width: 50px">
+        y =
+        <span id="y">0</span>
+        </p>
+        <script src="app.js"></script>
+    </body>
+</html>
