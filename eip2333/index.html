@@ -6878,7 +6878,7 @@ button.close {
                 It's safest to use this tool offline,
                 <a href="#offline">see how</a>.
             </h4>
-            <p class="version">v0.2.0</p>
+            <p class="version">v0.3.0</p>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -7236,7 +7236,7 @@ var buffer=require("buffer"),Buffer=buffer.Buffer;function copyProps(src,dst){fo
     }
 
     function processMnemonic() {
-        let mnemonic = DOM.mnemonic.value;
+        let mnemonic = DOM.mnemonic.value.trim();
         // TODO verify?
         let passphrase = DOM.passphrase.value;
         seed = libs.bip39.mnemonicToSeedSync(mnemonic, passphrase);
